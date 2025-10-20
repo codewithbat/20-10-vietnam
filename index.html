@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chúc mừng 20/10 – Vietnamese Women’s Day</title>
+  <meta name="description" content="Mẫu HTML5 chúc mừng Ngày Phụ nữ Việt Nam 20/10 với hiệu ứng nền, pháo hoa và trang trí đẹp mắt." />
+  <style>
+    :root{
+      --bg-1:#110e1b;          /* nền tối tím */
+      --bg-2:#1a1030;          /* tím đậm */
+      --ac-1:#ff6aa2;          /* hồng */
+      --ac-2:#ffd166;          /* vàng ấm */
+      --ac-3:#6ee7ff;          /* xanh nhạt */
+      --text:#ffffff;
+      --muted:#c7c7d1;
+      --card:#1f1636cc;        /* nền thẻ trong suốt */
+      --radius:20px;
+      --blur:18px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; color:var(--text); font:400 16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 10% 10%, #231b3d 0%, transparent 60%),
+                  radial-gradient(800px 800px at 90% 20%, #18243a 0%, transparent 60%),
+                  linear-gradient(120deg,var(--bg-1),var(--bg-2));
+      overflow:hidden; /* canvas full-screen */
+    }
+
+    /* Animated aurora backdrop */
+    .aurora{
+      position:fixed; inset:0; pointer-events:none; filter:blur(var(--blur)); opacity:.55;
+      background: conic-gradient(from 0deg at 50% 50%,
+        #ff6aa233 0deg, #ffd16633 120deg, #6ee7ff33 240deg, #ff6aa233 360deg);
+      animation: spin 28s linear infinite;
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* Floating soft bokeh dots */
+    .bokeh{position:fixed; inset:0; pointer-events:none; overflow:hidden}
+    .dot{position:absolute; width:12vmin; height:12vmin; border-radius:50%;
+         background:radial-gradient(circle at 30% 30%, #fff8, #fff0 60%);
+         filter:blur(4px); mix-blend-mode:screen; opacity:.15; animation: float 22s ease-in-out infinite}
+    .dot:nth-child(2){width:16vmin;height:16vmin;left:10%;top:70%;animation-duration:26s;animation-delay:-8s}
+    .dot:nth-child(3){width:10vmin;height:10vmin;left:75%;top:15%;animation-duration:20s;animation-delay:-3s}
+    .dot:nth-child(4){width:14vmin;height:14vmin;left:65%;top:75%;animation-duration:24s;animation-delay:-13s}
+    .dot:nth-child(5){width:12vmin;height:12vmin;left:25%;top:20%;animation-duration:30s;animation-delay:-18s}
+    @keyframes float{
+      0%,100%{transform:translateY(0) translateX(0)}
+      50%{transform:translateY(-6vh) translateX(2vw)}
+    }
+
+    /* Layout */
+    .wrap{position:relative; min-height:100%; display:grid; place-items:center; padding:24px}
+
+    .card{
+      position:relative; z-index:2; width:min(1050px, 92vw); display:grid; gap:24px; align-items:center;
+      grid-template-columns: 1.2fr 1fr; padding:28px; border-radius:var(--radius);
+      background:linear-gradient(180deg, #ffffff08, #ffffff05);
+      box-shadow: 0 20px 60px #0008, inset 0 0 0 1px #ffffff1a; backdrop-filter: blur(12px) saturate(1.2);
+    }
+
+    .media{
+      position:relative; border-radius:calc(var(--radius) + 8px); overflow:hidden; aspect-ratio: 4 / 3; isolation:isolate;
+      box-shadow:0 12px 40px #0009;
+    }
+    .media img{width:100%;height:100%;object-fit:cover; display:block}
+    .media::after{ /* soft inner glow */
+      content:""; position:absolute; inset:0; pointer-events:none;
+      background:radial-gradient(100% 100% at 50% 0%, #ffd16622, transparent 60%),
+                 linear-gradient(180deg, #0000 40%, #0004 100%);
+      mix-blend-mode:screen
+    }
+
+    .content{padding:10px 4px}
+    h1{margin:0 0 6px; font-weight:800; line-height:1.1;
+       font-size:clamp(28px, 5vw, 52px); letter-spacing:.2px}
+    .subtitle{margin:0 0 14px; color:var(--muted); font-size:clamp(14px, 2.3vw, 18px)}
+
+    .badge{
+      display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px;
+      background:linear-gradient(90deg, #ff6aa222,#ffd16622,#6ee7ff22);
+      border:1px solid #ffffff22; color:#fff; font-weight:600; backdrop-filter: blur(6px);
+    }
+    .badge svg{width:18px;height:18px}
+
+    .quote{margin:14px 0 18px; padding:14px 16px; background:#ffffff0f; border:1px solid #ffffff1f; border-radius:14px}
+
+    .btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+    .btn{
+      appearance:none; border:1px solid #ffffff2a; color:#fff; background:#ffffff12;
+      padding:10px 14px; border-radius:12px; cursor:pointer; font-weight:600; letter-spacing:.2px;
+      backdrop-filter: blur(6px); transition: transform .15s ease, background .2s ease;
+    }
+    .btn:hover{transform:translateY(-1px); background:#ffffff22}
+
+    .footnote{margin-top:8px; opacity:.7; font-size:13px}
+
+    /* Responsive */
+    @media (max-width: 880px){
+      .card{grid-template-columns:1fr; padding:20px}
+    }
+
+    /* Reduced motion accessibility */
+    @media (prefers-reduced-motion: reduce){
+      .aurora{animation:none}
+      .dot{animation:none}
+    }
+
+    /* Fireworks Canvas sits behind card */
+    #fx{
+      position:fixed; inset:0; z-index:0; display:block; width:100%; height:100%;
+    }
+  </style>
+</head>
+<body>
+  <!-- Animated background layers -->
+  <div class="aurora" aria-hidden="true"></div>
+  <div class="bokeh" aria-hidden="true">
+    <div class="dot" style="left:5%;top:25%"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+
+  <!-- Fireworks Canvas -->
+  <canvas id="fx" aria-hidden="true"></canvas>
+
+  <main class="wrap">
+    <section class="card" role="banner" aria-label="Chúc mừng Ngày Phụ nữ Việt Nam">
+      <figure class="media">
+        <!-- Thay src bằng ảnh của bạn -->
+        <img id="hero-photo" src="./vkck.png" alt="Hình ảnh tôn vinh phụ nữ Việt Nam" />
+      </figure>
+      <div class="content">
+        <div class="badge" aria-label="Ngày Phụ nữ Việt Nam">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 2a6 6 0 1 0 3.89 10.6L14 14h-2v2h2v2h2v-2h2v-2h-2l1.4-1.4A6 6 0 0 0 12 2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          20/10 • Vietnamese Women’s Day <span id="year"></span>
+        </div>
+        <h1>Chúc mừng Ngày Phụ nữ Việt Nam 20/10</h1>
+        <p class="subtitle">Gửi lời tri ân tới những người phụ nữ tuyệt vời – dịu dàng mà mạnh mẽ, truyền cảm hứng và lan toả yêu thương mỗi ngày.</p>
+        <blockquote class="quote">“Nơi nào có phụ nữ, nơi đó có phép màu.” – N. de Balzac</blockquote>
+        <div class="btns">
+          <button class="btn" id="burst" style="display: none;">Bắn pháo hoa 🎆</button>
+          <button class="btn" id="toggle" style="display: none;">Tắt/ bật hiệu ứng</button>
+          <button class="btn" id="upload" style="display: none;">Đổi ảnh…</button>
+        </div>
+        <p class="footnote">Mẹo: nhấp chuột/ chạm bất kỳ đâu để bắn pháo hoa. Ảnh sẽ bo góc và có ánh sáng ấm nhẹ.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <input id="file" type="file" accept="image/*" hidden />
+
+  <script>
+  // ===== Basics =====
+  const Y = new Date().getFullYear();
+  document.getElementById('year').textContent = ' • ' + Y;
+
+  // ===== Image uploader =====
+  const fileInput = document.getElementById('file');
+  const btnUpload = document.getElementById('upload');
+  const hero = document.getElementById('hero-photo');
+  btnUpload.addEventListener('click', () => fileInput.click());
+  fileInput.addEventListener('change', (e)=>{
+    const f = e.target.files?.[0];
+    if(!f) return;
+    const url = URL.createObjectURL(f);
+    hero.src = url;
+  });
+
+  // ===== Fireworks Engine (canvas 2D) =====
+  const canvas = document.getElementById('fx');
+  const ctx = canvas.getContext('2d', { alpha: true });
+  const DPR = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+  let W=0,H=0, running=true;
+
+  const resize = ()=>{
+    W = canvas.width = Math.floor(innerWidth * DPR);
+    H = canvas.height = Math.floor(innerHeight * DPR);
+    canvas.style.width = innerWidth + 'px';
+    canvas.style.height = innerHeight + 'px';
+    ctx.setTransform(DPR,0,0,DPR,0,0); // draw in CSS pixels
+  };
+  addEventListener('resize', resize, {passive:true});
+  resize();
+
+  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+  const rand=(a,b)=>a+Math.random()*(b-a);
+
+  const COLORS = [
+    '#ff6aa2', '#ffd166', '#6ee7ff', '#a7f3d0', '#c4b5fd', '#fb7185'
+  ];
+
+  class Particle{
+    constructor(x,y,color){
+      this.x=x; this.y=y; this.vx=rand(-2.4,2.4); this.vy=rand(-3.6,-1.2);
+      const s=rand(1.4,2.8); this.vx*=s; this.vy*=s;
+      this.g=0.06; this.drag=0.989; this.life=1; this.decay=rand(0.008,0.02);
+      this.color=color; this.size=rand(1.4,2.4);
+      this.spark= Math.random()<.4;
+    }
+    step(){
+      this.vx*=this.drag; this.vy=this.vy*this.drag+this.g;
+      this.x+=this.vx; this.y+=this.vy; this.life-=this.decay;
+    }
+    draw(ctx){
+      ctx.globalCompositeOperation='lighter';
+      ctx.globalAlpha = clamp(this.life,0,1);
+      ctx.beginPath(); ctx.arc(this.x,this.y,this.size,0,Math.PI*2);
+      ctx.fillStyle=this.color; ctx.fill();
+      if(this.spark){
+        ctx.globalAlpha = clamp(this.life*0.6,0,1);
+        ctx.fillRect(this.x+rand(-1,1), this.y+rand(-1,1), 1, 3);
+      }
+    }
+  }
+
+  class Firework{
+    constructor(x,y,color){
+      this.particles = Array.from({length: 120}, ()=> new Particle(x,y,color));
+    }
+    step(){
+      this.particles.forEach(p=>p.step());
+      this.particles = this.particles.filter(p=>p.life>0);
+      return this.particles.length>0;
+    }
+    draw(ctx){ this.particles.forEach(p=>p.draw(ctx)); }
+  }
+
+  const fireworks = [];
+
+  function burst(x,y){
+    const c = COLORS[(Math.random()*COLORS.length)|0];
+    fireworks.push(new Firework(x,y,c));
+  }
+
+  // ambient bursts
+  let t=0, next=rand(800,1800);
+
+  function loop(ts){
+    if(!running) return;
+    requestAnimationFrame(loop);
+    ctx.clearRect(0,0,innerWidth,innerHeight);
+
+    // subtle backdrop glow shimmer
+    ctx.fillStyle = 'rgba(255,255,255,0.02)';
+    ctx.fillRect(0,0,innerWidth,innerHeight);
+
+    // animate fireworks
+    for(let i=fireworks.length-1;i>=0;i--){
+      const f = fireworks[i];
+      if(!f.step()) fireworks.splice(i,1); else f.draw(ctx);
+    }
+
+    // schedule next auto burst
+    t+=16.6; if(t>next){
+      t=0; next = rand(900,1900);
+      const x = rand(innerWidth*0.15, innerWidth*0.85);
+      const y = rand(innerHeight*0.15, innerHeight*0.45);
+      burst(x,y);
+    }
+  }
+  requestAnimationFrame(loop);
+
+  // interactions
+  const btnBurst=document.getElementById('burst');
+  btnBurst.addEventListener('click',()=> burst(innerWidth*0.5, innerHeight*0.32));
+  addEventListener('pointerdown', (e)=> burst(e.clientX, e.clientY));
+
+  // toggle effects
+  document.getElementById('toggle').addEventListener('click',()=>{
+    running = !running;
+    if(running) requestAnimationFrame(loop);
+    canvas.style.opacity = running? '1' : '.05';
+    document.querySelector('.aurora').style.opacity = running? '.55' : '.2';
+    document.querySelectorAll('.dot').forEach(d=> d.style.opacity = running? '.15' : '.05');
+  });
+
+  // Respect prefers-reduced-motion at load
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){
+    document.getElementById('toggle').click();
+  }
+  </script>
+</body>
+</html>
